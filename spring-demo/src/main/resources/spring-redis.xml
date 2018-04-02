@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        
+        <!-- 加载配置属性文件 -->    
+	   <context:property-placeholder ignore-unresolvable="true" location="classpath:redis.properties" /> 
+       <!-- redis连接池配置 -->
+	   <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">    
+		   <property name="maxIdle" value="${redis.pool.maxIdle}" /> <!-- 最大能够保持idel状态的对象数 -->     
+		   <property name="maxTotal" value="${redis.pool.maxTotal}" /> <!-- 最大分配的对象数 -->    
+		   <property name="testOnBorrow" value="true" /> <!-- 是否进行有效性检查 -->    
+	   </bean>
+	   
+	   
+	   <!-- 单点 -->
+	   <!-- <bean id="jedisPool" class="redis.clients.jedis.JedisPool">    
+		   <constructor-arg index="0" ref="jedisPoolConfig" />    
+		   <constructor-arg index="1" value="${redis.host}" />    
+		   <constructor-arg index="2" value="${redis.port}" type="int" />    
+		   <constructor-arg index="3" value="${redis.timeout}"/>    
+		   <constructor-arg index="4"  value="${redis.password}"/>    
+		</bean>   
+		<bean id="cacheManager" class="com.ctvit.utils.CacheManager">
+			<constructor-arg index="0" ref="jedisPool" />   
+		</bean> -->
+		<!-- 哨兵 -->
+		<!-- <bean id="jedisSentinelPool" class="redis.clients.jedis.JedisSentinelPool">  
+	       <constructor-arg index="0" value="mymaster" />  
+	       <constructor-arg index="1">  
+	           <set>  
+	               <value>${redis.sentinel1.host}:${redis.sentinel1.port}</value>  
+	               <value>${redis.sentinel2.host}:${redis.sentinel2.port}</value>  
+	           </set>  
+	       </constructor-arg>  
+	       <constructor-arg index="2" ref="jedisPoolConfig" />  
+	   </bean>
+	   
+	   <bean id="cacheManager" class="com.ctvit.utils.SentinalCacheManagerImpl">
+			<constructor-arg index="0" ref="jedisSentinelPool" />   
+		</bean> -->
+		
+		<!-- cluster -->
+		<bean id="hostAndPort" class="redis.clients.jedis.HostAndPort">
+ 			<constructor-arg index="0" value="${redis.cluster.host}" />    
+            <constructor-arg index="1" value="${redis.cluster.port}"/> 
+ 		</bean>
+		 <bean id="jedisCluster" class="redis.clients.jedis.JedisCluster"> 
+		 	<constructor-arg index="0">
+	      	 	<list>
+			        <bean class="redis.clients.jedis.HostAndPort">
+			        	<constructor-arg index="0" value="${redis.cluster.host}" type="java.lang.String"/>
+	      				<constructor-arg index="1" value="${redis.cluster.port}" type="int"/>
+			        </bean>		      
+			    </list>
+		    </constructor-arg>
+		    <constructor-arg index="1" value="5000" type="int"/>
+		    <constructor-arg index="2" ref="jedisPoolConfig"/>
+		 </bean>
+		  <bean id="cacheManager" class="com.ctvit.utils.ClusterCacheManagerImpl">
+			<constructor-arg index="0" ref="jedisCluster" />   
+		</bean>
+</beans>
