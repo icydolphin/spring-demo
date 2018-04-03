@@ -54,6 +54,36 @@
 	    <artifactId>aspectjweaver</artifactId>
 	    <version>1.8.13</version>
 	  </dependency>
+	  <!-- Thymeleaf -->
+	  <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-thymeleaf</artifactId>
+          <version>${spring.boot.version}</version>
+      </dependency>
+      <!-- websocket -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-websocket</artifactId>
+          <version>${spring.boot.version}</version>
+      </dependency>
+      <!-- security -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+          <version>${spring.boot.version}</version>
+      </dependency>
+	  <!-- <dependency>
+	  	  <groupId>com.ctvit</groupId>
+  		  <artifactId>spring-auto</artifactId>
+  	      <version>0.0.1-SNAPSHOT</version>
+	  </dependency> -->
+	  <!-- 使用外部tomcat -->
+	  <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>1.5.8.RELEASE</version>
+            <scope>provided</scope>
+        </dependency> -->
   </dependencies>
   <build>
   	<plugins>
