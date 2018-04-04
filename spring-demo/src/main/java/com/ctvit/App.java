@@ -19,8 +19,7 @@ import com.ctvit.bussiness.property.PropertyReadService;
  */
 @SpringBootApplication
 @ImportResource(locations={"classpath:spring-redis.xml"})
-@RestController("/")
-public class App extends SpringBootServletInitializer
+public class App //extends SpringBootServletInitializer
 {
 		
 	
@@ -36,8 +35,8 @@ public class App extends SpringBootServletInitializer
         System.out.println(authorSettings.getId());
     }
     //SpringBootServletInitializer是打war时使用外部Tomcat
-    @Override
+    /*@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(App.class);
-    }
+    }*/
 }
