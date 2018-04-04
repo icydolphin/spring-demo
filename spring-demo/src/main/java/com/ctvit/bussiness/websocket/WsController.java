@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class WsController {
 	
-	SimpleMes
+	
 	
 	@MessageMapping("/welcome")
 	@SendTo("/topic/getResponse")
